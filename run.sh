@@ -18,11 +18,13 @@ ERRFILE="${LOGFILE:-&2}"
 
 set_java_home () {
 	arch=`dpkg --print-architecture 2>/dev/null`
-	support_java_ver='6 7'
+	support_java_ver='6 7 8'
 	java_list=''
 	for v in ${support_java_ver}; do
 		java_list=`echo ${java_list} java-$v-openjdk-${arch}`
 		java_list=`echo ${java_list} java-$v-openjdk`
+                java_list=`echo ${java_list} java-$v-oracle/jre`
+                java_list=`echo ${java_list} java-$v-oracle/jdk`
 	done
 
 	cur_java=`update-alternatives --query java | awk '/^Value: /{print $2}'`
