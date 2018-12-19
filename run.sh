@@ -1,5 +1,4 @@
-#!/bin/bash
-NAME="unifi"
+AME="unifi"
 DESC="Ubiquiti UniFi Controller"
 
 BASEDIR="/usr/lib/unifi"
@@ -18,13 +17,14 @@ ERRFILE="${LOGFILE:-&2}"
 
 set_java_home () {
 	arch=`dpkg --print-architecture 2>/dev/null`
-	support_java_ver='6 7 8'
+	support_java_ver='8 9 10'
 	java_list=''
 	for v in ${support_java_ver}; do
 		java_list=`echo ${java_list} java-$v-openjdk-${arch}`
 		java_list=`echo ${java_list} java-$v-openjdk`
                 java_list=`echo ${java_list} java-$v-oracle/jre`
                 java_list=`echo ${java_list} java-$v-oracle/jdk`
+                java_list=`echo ${java_list} java-$v-oracle`
 	done
 
 	cur_java=`update-alternatives --query java | awk '/^Value: /{print $2}'`
@@ -74,7 +74,8 @@ JSVC_OPTS="${JSVC_OPTS}\
 
 
 if [[ ! -f /usr/lib/unifi/data/keystore ]]; then
-    keytool -genkey -keyalg RSA -alias unifi -keystore /usr/lib/unifi/data/keystore -storepass aircontrolenterprise -keypass aircontrolenterprise -validity 1825 -keysize 4096 -dname "cn=unfi"
+    keytool -genkey -keyalg RSA -alias unifi -keystore /usr/lib/unifi/data/keystore -storepass aircontrolenterprise -keypass aircontrolenterprise -validity 1825 
+-keysize 4096 -dname "cn=unfi"
 fi
 exec $JSVC $JSVC_OPTS com.ubnt.ace.Launcher start
 
