@@ -4,7 +4,7 @@ MAINTAINER George Shammas <george@shamm.as>
 ENV DEBIAN_FRONTENED=noninteractive
 RUN \
   apt-get update && \
-  apt-get install -y gnupg && \  
+  apt-get install -y gnupg procps && \
   echo deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti >> /etc/apt/sources.list && \
   apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv 06e85760c0a52c50 && \
   echo deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen >> /etc/apt/sources.list && \
@@ -23,4 +23,4 @@ WORKDIR /var/lib/unifi
 ADD run.sh /run.sh
 RUN chmod 755 /run.sh
 
-ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ["/bin/bash", "/run.sh"]
